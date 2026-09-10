@@ -1,0 +1,9 @@
+{
+  "name": "NoticeLens",
+  "short_name": "NoticeLens",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0b10",
+  "theme_color": "#0a0b10",
+  "description": "Turn noisy real-world information into a practical decision card."
+}

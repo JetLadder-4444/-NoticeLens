@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0a0b10">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <title>NoticeLens — Make important text actionable</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo">◎</span> NoticeLens</div>
+  <div class="tag">PRIVATE • LOCAL • PRACTICAL</div>
+</header>
+
+<main class="shell">
+  <section class="hero">
+    <p class="eyebrow">TURN NOISY TEXT INTO A DECISION CARD</p>
+    <h1>What actually matters in this message?</h1>
+    <p class="sub">Paste an email, bill, notice, warranty, school circular, or suspicious message. NoticeLens extracts deadlines, money, actions, contacts and warning signals without sending your text to an AI service.</p>
+  </section>
+
+  <section class="workspace">
+    <div class="scan-card card">
+      <div class="card-head"><div><p class="eyebrow">PHOTO SCANNER</p><h2>Scan a real document</h2></div><span>Works on phone + computer</span></div>
+      <div class="scan-actions">
+        <button id="openCamera" class="camera-button" type="button">📷 Open camera</button><label class="hidden-input"><input id="cameraInput" type="file" accept="image/*" capture="environment"></label>
+        <label class="upload-button"><input id="fileInput" type="file" accept="image/*"><span>🖼 Choose photo</span></label>
+      </div>
+      <div id="previewBox" class="preview hidden"><img id="preview" alt="Selected document preview"><div class="preview-meta"><strong id="fileName">Photo</strong><span id="storedStatus">Not stored yet</span></div></div>
+      <button id="scanBtn" class="primary full" disabled>Read photo & sift the signal →</button>
+      <p id="ocrStatus" class="hint">“Open camera” uses the device webcam/camera when supported. “Choose photo” uses an existing image.</p>
+    </div>
+    <div class="input-card card">
+      <div class="card-head"><div><p class="eyebrow">TEXT MODE</p><h2>Or paste text directly</h2></div><span id="count">0 / 30,000</span></div>
+      <textarea id="text" maxlength="30000" placeholder="Paste an email, bill, notice, warranty, or message here..."></textarea>
+      <div class="controls"><button id="demo" class="secondary">Try an example</button><button id="clear" class="secondary">Clear</button><button id="analyze" class="primary">Sift the signal →</button></div>
+    </div>
+    <div id="empty" class="card empty">
+      <div class="empty-icon">✦</div>
+      <h2>Your decision card will appear here</h2>
+      <p>You'll get a priority level, a plain-language summary, concrete actions, dates, money, contacts and safety warnings.</p>
+    </div>
+
+    <div id="result" class="result hidden">
+      <div class="priority card">
+        <div>
+          <p class="eyebrow">PRIORITY</p>
+          <div id="priority" class="priority-value">—</div>
+        </div>
+        <div class="score-wrap"><span id="score">0</span><small>signal score</small></div>
+      </div>
+
+      <div class="card">
+        <p class="eyebrow">IN PLAIN ENGLISH</p>
+        <p id="summary" class="summary">—</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-head"><h2>Do this</h2><span id="actionCount"></span></div>
+          <ul id="actions" class="list"></ul>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Dates</h2><span id="dateCount"></span></div>
+          <div id="dates" class="chips"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Money</h2><span id="moneyCount"></span></div>
+          <div id="money" class="chips"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Contacts</h2><span id="contactCount"></span></div>
+          <div id="contacts" class="contacts"></div>
+        </div>
+      </div>
+
+      <div id="warningsCard" class="card warning hidden">
+        <p class="eyebrow">SAFETY CHECK</p>
+        <ul id="warnings" class="list"></ul>
+      </div>
+
+      <div class="card">
+        <p class="eyebrow">WHY IT WAS FLAGGED</p>
+        <div id="signals" class="chips"></div>
+        <p id="privacy" class="privacy"></p>
+      </div>
+    </div>
+    <section class="saved card">
+      <div class="card-head"><div><p class="eyebrow">THIS DEVICE</p><h2>Saved scans</h2></div><button id="clearSaved" class="secondary">Delete all</button></div>
+      <p class="hint">Photos are kept in this browser on this device. They are not automatically synced to Google Photos or another cloud service.</p>
+      <div id="savedScans" class="saved-grid"><span class="hint">No saved scans yet.</span></div>
+    </section>
+  </section>
+</main>
+
+<div id="cameraModal" class="camera-modal hidden" role="dialog" aria-modal="true" aria-labelledby="cameraTitle">
+  <div class="camera-panel">
+    <div class="card-head"><div><p class="eyebrow">CAMERA</p><h2 id="cameraTitle">Take a document photo</h2></div><button id="closeCamera" class="secondary" type="button">Close</button></div>
+    <video id="cameraVideo" autoplay playsinline muted></video>
+    <canvas id="cameraCanvas" class="hidden"></canvas>
+    <p id="cameraStatus" class="hint">Allow camera access when your browser asks.</p>
+    <button id="takePhoto" class="primary full" type="button">Take photo</button>
+  </div>
+</div>
+
+<footer>NoticeLens • Open-source project</footer>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
